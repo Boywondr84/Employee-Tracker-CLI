@@ -1,10 +1,8 @@
 {
     "departments": [
         {
-            "title": "Test Title",
-            "text": "Test Text"
+            "id": "Test ID",
+            "name": "Test Name"
         }
     ]
 }
-
-// Probably don't need this file

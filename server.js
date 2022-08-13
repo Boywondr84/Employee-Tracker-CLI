@@ -1,8 +1,8 @@
-// const inquirer = require('inquirer');
-// const cTable = require('console.table');
+// // const inquirer = require('inquirer');
+// // const cTable = require('console.table');
 const express = require('express');
 const db = require('./db/connection');
-// const inputCheck = require('./utils/inputCheck');
+const inputCheck = require('./utils/inputCheck');
 
 const PORT = process.env.PORT || 3004;
 const app = express();
@@ -10,6 +10,7 @@ const app = express();
 // Express middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
 
 // let { departments } = require('./db/departments.json');
 
