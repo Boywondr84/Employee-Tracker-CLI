@@ -8,9 +8,9 @@ CREATE TABLE departments (
 );
 
 CREATE TABLE roles (
-    id INTEGER PRIMARY KEY,
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
     role_title VARCHAR(30) NOT NULL,
-    salary DECIMAL(10,2) NOT NULL,
+    salary DECIMAL NOT NULL,
     department_id INTEGER,
     CONSTRAINT fk_departmentID FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL
     -- department_id === id from departments.id

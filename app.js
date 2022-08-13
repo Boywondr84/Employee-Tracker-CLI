@@ -1,12 +1,10 @@
 const inquirer = require('inquirer');
 const cTable = require('console.table');
-var departmentsArray = [];
-var Department = require("./lib/Department");
+
 // const inputCheck = require('./utils/inputCheck');
 // const { response } = require('express');
 // const express = require('express');
 const db = require('./db/connection');
-
 
 // question prompts
 const promptUser = () => {
@@ -53,9 +51,55 @@ const promptUser = () => {
                     .catch((error) => {
                         console.log(error);
                     })
+            } else if (response.start == 'View All Departments') {
+                function viewDepartment() {
+                    const sql = `SELECT * FROM departments`;
+                    db.query(sql, (err, result) => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.table(result);
+                        }
+                    })
+                }
+                viewDepartment()
+            } else if (response.start == 'Add Employee') {
+                function addEmployee() {
+                    return inquirer.prompt([
+                        {
+                            type: "input",
+                            name: "id",
+                            message: "ID number"
+                        },
+                        {
+                            type: "input",
+                            name: "first_name",
+                            message: "First name"
+                        },
+                        {
+                            type: "input",
+                            name: "last_name",
+                            message: "Last name"
+                        },
+                    ])
+                };
+                addEmployee()
+                    .then((employeeData) => {
+                        console.table(employeeData);
+                        const sql = `INSERT INTO employees (id, first_name, last_name)
+                                    VALUES (?, ?, ?)`;
+                        const params = [employeeData.id, employeeData.first_name, employeeData.last_name];
+                        db.query(sql, params, (err, result) => {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                console.table(result);
+                            }
+                        })
+                    })
             }
-        });
+            
+        })
 };
-
 
 promptUser()
