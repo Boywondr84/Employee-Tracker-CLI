@@ -1,9 +1,5 @@
 const inquirer = require('inquirer');
 const cTable = require('console.table');
-
-// const inputCheck = require('./utils/inputCheck');
-// const { response } = require('express');
-// const express = require('express');
 const db = require('./db/connection');
 
 // question prompts

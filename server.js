@@ -1,8 +1,8 @@
-const express = require('express');
-const db = require('./db/connection');
-const inputCheck = require('./utils/inputCheck');
+// const express = require('express');
+// const db = require('./db/connection');
+// const inputCheck = require('./utils/inputCheck');
 
-const PORT = process.env.PORT || 3004;
+// const PORT = process.env.PORT || 3004;
 // const app = express();
 
 // // Express middleware
@@ -52,11 +52,11 @@ const PORT = process.env.PORT || 3004;
 // });
 
 // Start server after db connection
-db.connect(err => {
-    if (err) throw err;
-    console.log('Database connected.');
+// db.connect(err => {
+//     if (err) throw err;
+//     console.log('Database connected.');
 
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
-});
+//     app.listen(PORT, () => {
+//         console.log(`Server running on port ${PORT}`);
+//     });
+// });
