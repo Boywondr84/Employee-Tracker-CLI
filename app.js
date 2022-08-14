@@ -21,11 +21,6 @@ const promptUser = () => {
             if (response.start == 'Add Department') {
                 function addDepartment() {
                     return inquirer.prompt([
-                        // {
-                        //     type: "input",
-                        //     name: "id",
-                        //     message: "What is the department's id number?"
-                        // },
                         {
                             type: "input",
                             name: "name",
@@ -66,11 +61,6 @@ const promptUser = () => {
             } else if (response.start == 'Add Employee') {
                 function addEmployee() {
                     return inquirer.prompt([
-                        // {
-                        //     type: "input",
-                        //     name: "id",
-                        //     message: "ID number"
-                        // },
                         {
                             type: "input",
                             name: "first_name",
@@ -86,6 +76,21 @@ const promptUser = () => {
                             name: "role_id",
                             message: "Role ID number"
                         },
+                        // {
+                        //     type: "number",
+                        //     name: "confirm",
+                        //     message: "Are you being hired as a manager? (Required)",
+                        //     validate: confirm => {
+                        //         if (confirm === 1) {
+                        //             return true;
+                        //         } else if (confirm === 0) {
+                        //             return;
+                        //         } else {
+                        //             console.log('Please enter 0 for no and 1 for yes');
+                        //             return false;
+                        //         }
+                        //     }
+                        // },
                         {
                             type: "input",
                             name: "manager_id",
@@ -110,11 +115,6 @@ const promptUser = () => {
             } else if (response.start == 'Add Role') {
                 function addRole() {
                     return inquirer.prompt([
-                        // {
-                        //     type: "input",
-                        //     name: "id",
-                        //     message: "Role ID"
-                        // },
                         {
                             type: "input",
                             name: "role_title",
@@ -147,7 +147,6 @@ const promptUser = () => {
                         })
                     })
             }
-            
         })
 };
 
