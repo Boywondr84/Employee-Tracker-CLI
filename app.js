@@ -27,7 +27,7 @@ const promptUser = () => {
                 addDepartment()
                     .then((departmentData) => {
                         console.table(departmentData);
-                        const sql = `INSERT INTO departments (department_name)
+                        const sql = `INSERT INTO departments (name)
                                     VALUES (?)`;
                         const params = [departmentData.name];
                         db.query(sql, params, (err, result) => {
@@ -72,21 +72,6 @@ const promptUser = () => {
                             name: "role_id",
                             message: "Role ID number"
                         },
-                        // {
-                        //     type: "number",
-                        //     name: "confirm",
-                        //     message: "Are you being hired as a manager? (Required)",
-                        //     validate: confirm => {
-                        //         if (confirm === 1) {
-                        //             return true;
-                        //         } else if (confirm === 0) {
-                        //             return;
-                        //         } else {
-                        //             console.log('Please enter 0 for no and 1 for yes');
-                        //             return false;
-                        //         }
-                        //     }
-                        // },
                         {
                             type: "input",
                             name: "manager_id",
@@ -113,8 +98,8 @@ const promptUser = () => {
                     return inquirer.prompt([
                         {
                             type: "input",
-                            name: "role_title",
-                            message: "Role title"
+                            name: "job_title",
+                            message: "Job title"
                         },
                         {
                             type: "input",
@@ -131,9 +116,9 @@ const promptUser = () => {
                 addRole()
                     .then((roleData) => {
                         console.table(roleData);
-                        const sql = `INSERT INTO roles (role_title, salary, department_id)
+                        const sql = `INSERT INTO roles (job_title, salary, department_id)
                                     VALUES (?, ?, ?)`;
-                        const params = [roleData.role_title, roleData.salary, roleData.department_id];
+                        const params = [roleData.job_title, roleData.salary, roleData.department_id];
                         db.query(sql, params, (err, result) => {
                             if (err) {
                                 console.log(err)
@@ -142,6 +127,32 @@ const promptUser = () => {
                             }
                         })
                     })
+            } else if (response.start == 'View All Employees') {
+                function viewEmployees() {
+                    const sql = `SELECT * FROM employees`;
+                    db.query(sql, (err, result) => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.table(result);
+                        }
+                    })
+                }
+                viewEmployees()
+            } else if (response.start == 'View All Roles') {
+                function viewRoles() {
+                    const sql = `
+                                FROM roles
+                                INNER JOIN departments ON roles.department_id = departments.id`;
+                    db.query(sql, (err, result) => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.table(result);
+                        }
+                    })
+                }
+                viewRoles()
             }
         })
 };
