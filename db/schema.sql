@@ -22,5 +22,5 @@ CREATE TABLE employees (
     role_id INTEGER,
     CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE,
     -- manager BOOLEAN NOT NULL,
-    manager_id INTEGER NOT NULL
+    manager_id int DEFAULT NULL
 );

@@ -75,7 +75,17 @@ const promptUser = () => {
                         {
                             type: "input",
                             name: "manager_id",
-                            message: "Manager ID number"
+                            message: "Manager ID number",                            
+                            default: null,
+                            validate: managerID => {
+                                if (managerID == null || 100, 200, 300, 400, 500) {
+                                    return true;
+                                } else {
+                                    console.log("Enter a manager ID number or NULL");
+                                    return false;
+                                }
+                            }
+                            // how to accept null in mysql?
                         },
                     ])
                 };
@@ -141,9 +151,9 @@ const promptUser = () => {
                 viewEmployees()
             } else if (response.start == 'View All Roles') {
                 function viewRoles() {
-                    const sql = `
-                                FROM roles
-                                INNER JOIN departments ON roles.department_id = departments.id`;
+                    const sql = `SELECT * FROM employees
+                                INNER JOIN roles
+                                ON employees.role_id = roles.role_id`;
                     db.query(sql, (err, result) => {
                         if (err) {
                             console.log(err)
