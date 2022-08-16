@@ -69,11 +69,6 @@ const promptUser = () => {
                         },
                         {
                             type: "input",
-                            name: "role_id",
-                            message: "Role ID number"
-                        },
-                        {
-                            type: "input",
                             name: "manager_id",
                             message: "Manager ID number",                            
                             default: null,
@@ -85,16 +80,22 @@ const promptUser = () => {
                                     return false;
                                 }
                             }
+                            
                             // how to accept null in mysql?
+                        },
+                        {
+                            type: "input",
+                            name: "role_id",
+                            message: "Role ID number"
                         },
                     ])
                 };
                 addEmployee()
                     .then((employeeData) => {
                         console.table(employeeData);
-                        const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id)
+                        const sql = `INSERT INTO employees (first_name, last_name, manager_id, role_id)
                                     VALUES (?, ?, ?, ?)`;
-                        const params = [employeeData.first_name, employeeData.last_name, employeeData.role_id, employeeData.manager_id];
+                        const params = [employeeData.first_name, employeeData.last_name, employeeData.manager_id, employeeData.role_id];
                         db.query(sql, params, (err, result) => {
                             if (err) {
                                 console.log(err)
@@ -139,7 +140,10 @@ const promptUser = () => {
                     })
             } else if (response.start == 'View All Employees') {
                 function viewEmployees() {
-                    const sql = `SELECT * FROM employees`;
+                    const sql = `SELECT * FROM employees
+                                INNER JOIN roles
+                                ON employees.role_id = roles.role_id
+                                ORDER BY department_id`;
                     db.query(sql, (err, result) => {
                         if (err) {
                             console.log(err)
@@ -151,9 +155,9 @@ const promptUser = () => {
                 viewEmployees()
             } else if (response.start == 'View All Roles') {
                 function viewRoles() {
-                    const sql = `SELECT * FROM employees
-                                INNER JOIN roles
-                                ON employees.role_id = roles.role_id`;
+                    const sql = `SELECT * FROM departments
+                                LEFT JOIN roles
+                                ON departments.id = roles.department_id`;
                     db.query(sql, (err, result) => {
                         if (err) {
                             console.log(err)
