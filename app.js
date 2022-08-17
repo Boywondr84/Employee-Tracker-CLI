@@ -12,11 +12,11 @@ const promptUser = () => {
             choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
         }
     ])
-        .then((response) => {
+        .then(response => {
             console.log(response);
             if (response.start == 'Add Department') {
                 function addDepartment() {
-                    return inquirer.prompt([
+                    return inquirer.prompt([ 
                         {
                             type: "input",
                             name: "name",
@@ -26,7 +26,7 @@ const promptUser = () => {
                 };
                 addDepartment()
                     .then((departmentData) => {
-                        console.table(departmentData);
+                        // console.table(departmentData);
                         const sql = `INSERT INTO departments (name)
                                     VALUES (?)`;
                         const params = [departmentData.name];
@@ -34,10 +34,11 @@ const promptUser = () => {
                             if (err) {
                                 console.log(err)
                             } else {
-                                console.log(result);
+                                // console.log(result);
+                                promptUser();
                             }
                         })
-                        promptUser()
+                        // promptUser()
                     })
                     .catch((error) => {
                         console.log(error);
@@ -50,6 +51,7 @@ const promptUser = () => {
                             console.log(err)
                         } else {
                             console.table(result);
+                            promptUser();
                         }
                     })
                 }
@@ -68,20 +70,10 @@ const promptUser = () => {
                             message: "Last name"
                         },
                         {
-                            type: "input",
+                            type: "list",
                             name: "manager_id",
-                            message: "Manager ID number",                            
-                            default: null,
-                            validate: managerID => {
-                                if (managerID == null || 100, 200, 300, 400, 500) {
-                                    return true;
-                                } else {
-                                    console.log("Enter a manager ID number or NULL");
-                                    return false;
-                                }
-                            }
-                            
-                            // how to accept null in mysql?
+                            message: "Manager ID number",
+                            choices: [100, 200, 300, 400, 500]
                         },
                         {
                             type: "input",
@@ -92,7 +84,7 @@ const promptUser = () => {
                 };
                 addEmployee()
                     .then((employeeData) => {
-                        console.table(employeeData);
+                        // console.table(employeeData);
                         const sql = `INSERT INTO employees (first_name, last_name, manager_id, role_id)
                                     VALUES (?, ?, ?, ?)`;
                         const params = [employeeData.first_name, employeeData.last_name, employeeData.manager_id, employeeData.role_id];
@@ -100,7 +92,8 @@ const promptUser = () => {
                             if (err) {
                                 console.log(err)
                             } else {
-                                console.table(result);
+                                // console.table(result);
+                                promptUser();
                             }
                         })
                     })
@@ -126,7 +119,7 @@ const promptUser = () => {
                 };
                 addRole()
                     .then((roleData) => {
-                        console.table(roleData);
+                        // console.table(roleData);
                         const sql = `INSERT INTO roles (job_title, salary, department_id)
                                     VALUES (?, ?, ?)`;
                         const params = [roleData.job_title, roleData.salary, roleData.department_id];
@@ -134,7 +127,8 @@ const promptUser = () => {
                             if (err) {
                                 console.log(err)
                             } else {
-                                console.table(result);
+                                // console.table(result);
+                                promptUser()
                             }
                         })
                     })
@@ -149,6 +143,7 @@ const promptUser = () => {
                             console.log(err)
                         } else {
                             console.table(result);
+                            promptUser();
                         }
                     })
                 }
@@ -163,10 +158,13 @@ const promptUser = () => {
                             console.log(err)
                         } else {
                             console.table(result);
+                            promptUser();
                         }
                     })
                 }
                 viewRoles()
+            } else {
+                console.log("To close, press ctrl + C for windows users. Goodbye.");
             }
         })
 };
