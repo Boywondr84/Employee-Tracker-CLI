@@ -72,8 +72,8 @@ const promptUser = () => {
                         {
                             type: "list",
                             name: "manager_id",
-                            message: "Manager ID number",
-                            choices: [100, 200, 300, 400, 500]
+                            message: "Manager ID number. 100 for Sales, 200 for Finance, 300 for Marketing, 400 for R & D, 500 for Legal, 600 for HR, 0 for Manager",
+                            choices: [100, 200, 300, 400, 500, 600, 0]
                         },
                         {
                             type: "input",
@@ -132,6 +132,47 @@ const promptUser = () => {
                             }
                         })
                     })
+            } else if (response.start == 'Update Employee Role') {
+                function updateRole() {
+                    return inquirer.prompt([
+                        {
+                            type: "input",
+                            name: "employee_id",
+                            message: "Enter employee ID"
+                        },
+                        {
+                            type: "input",
+                            name: "role_id",
+                            message: "Enter new role ID"
+                        },
+                        {
+                            type: "list",
+                            name: "manager_id",
+                            message: "Manager ID number. 100 for Sales, 200 for Finance, 300 for Marketing, 400 for R & D, 500 for Legal, 600 for HR, 0 for Manager",
+                            choices: [100, 200, 300, 400, 500, 600, 0]
+                        },
+                    ])
+                };
+                updateRole()
+                    .then((updatedRoleData) => {
+                        console.log(updatedRoleData.employee_id, updatedRoleData.role_id, updatedRoleData.manager_id);
+                    const sql = `UPDATE
+                                    employees
+                                SET
+                                    role_id = ${updatedRoleData.role_id},
+                                    manager_id = ${updatedRoleData.manager_id}
+                                WHERE
+                                    id = ${updatedRoleData.employee_id}`;
+                    // const params = [updatedRoleData.employee_id, updatedRoleData.role_id];
+                    db.query(sql, (err, result) => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            // console.log('success');
+                            promptUser()
+                        }
+                    })
+                })
             } else if (response.start == 'View All Employees') {
                 function viewEmployees() {
                     const sql = `SELECT * FROM employees
